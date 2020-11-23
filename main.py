@@ -29,8 +29,8 @@ if __name__ == "__main__":
 
         constraints.append(Z[i,0] == Y[i,0])
         for j in range(1, n):
-            constraints.append(Z[i, j] >= Z[i, j-1] + Y[i, j])
-            constraints.append(Z[i, j] >= Z[i, j - 1])
+            constraints.append(Z[i, j] <= Z[i, j-1] + Y[i, j])
+            constraints.append(Z[i, j] >= Z[i, j-1])
             constraints.append(Z[i, j] >= Y[i, j])
             constraints.append(Z[i, j] <= 1)
             constraints.append(Z[i, j] >= 0)
@@ -39,9 +39,6 @@ if __name__ == "__main__":
         constraints.append(x[i] <= 1)
 
     constraints.append(np.ones(n) @ x == c)
-
-    # for i in constraints:
-    #     print(i)
 
     prob = cp.Problem(cp.Maximize(np.ones(m) @ Z[:,n-1]), constraints)
 
