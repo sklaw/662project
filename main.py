@@ -1,6 +1,7 @@
 import cvxpy as cp
 import numpy as np
 
+
 if __name__ == "__main__":
     A = np.array([
         [0, 0, 0, 0, 1, 1, 1, 1],
@@ -14,7 +15,7 @@ if __name__ == "__main__":
     c = 2
 
     m, n = A.shape
-    x = cp.Variable(n)
+    x = cp.Variable(n, boolean=True)
     Y = cp.Variable([m, n])
     Z = cp.Variable([m, n])
     constraints = []
