@@ -41,6 +41,22 @@ if __name__ == "__main__":
 
     constraints.append(np.ones(n) @ x == c)
 
+    # Contiguous constraint
+    y_1 = cp.Variable(n-1)
+    y_2 = cp.Variable(n-1)
+    y_3 = cp.Variable(n-1)
+    for i in range(n-1):
+        constraints.append(y_1[i] == x[i])
+        constraints.append(y_2[i] == x[i+1])
+        # y_3 = y_1 AND y_2
+        constraints.append(y_3[i] >= y_1[i] + y_2[i] - 1)
+        constraints.append(y_3[i] <= y_1[i])
+        constraints.append(y_3[i] <= y_2[i])
+        constraints.append(y_3[i] <= 1)
+        constraints.append(y_3[i] >= 0)
+    constraints.append(np.ones(n-1)@y_3 == np.ones(n)@x-1)
+
+
     prob = cp.Problem(cp.Maximize(np.ones(m) @ Z[:,n-1]), constraints)
 
     prob.solve()
