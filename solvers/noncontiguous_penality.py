@@ -58,7 +58,7 @@ if __name__ == "__main__":
         constraints.append(y_3[i] <= y_2[i])
         constraints.append(y_3[i] <= 1)
         constraints.append(y_3[i] >= 0)
-    constraints.append(np.ones(n-1)@y_3 <= np.ones(n)@x-1)
+    #constraints.append(np.ones(n-1)@y_3 <= np.ones(n)@x-1)
     #constraints.append(np.ones(n-1)@y_3 - (c-1) <= g*(c-1))
     #constraints.append(-(np.ones(n - 1) @ y_3 - (c - 1)) <= g*(c-1))
 
@@ -78,8 +78,7 @@ if __name__ == "__main__":
         constraints.append(np.ones(L+2) @ y_4[i,:] >= 0)
 
 
-
-    prob = cp.Problem(cp.Maximize(np.ones(m) @ Z[:,n-1]+ p1*(np.ones(n-1)@y_3 - 2*(c-1)+ np.ones(n-1)@y_3)), constraints)
+    prob = cp.Problem(cp.Maximize(np.ones(m) @ Z[:,n-1] + p1*((np.ones(n-1)@y_3) -(c-1))), constraints)
 
     prob.solve()
 
