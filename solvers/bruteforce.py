@@ -33,9 +33,29 @@ def relaxed_contigious_permute(y: float, c: int, n: int):
             # print(np.abs((np.correlate(permx, np.array([1, 1])) == 2).sum() - c + 1))
             yield np.array(permx)
 
+
+def bruteforce_solver(A: np.ndarray, iterator: iter, terminate_early: bool, m: int):
+    bestobj = 0
+    bestx = None
+
+    iter = 0
+    starttime = time.time()
+    for iter, x in tqdm(enumerate(iterator)):
+        x = np.array(x)
+        # print(x)
+        obj = (A * x).any(1).sum()
+        if bestobj < obj:
+            bestobj = obj
+            bestx = x
+        if terminate_early and bestobj == m:  # early termination
+            print(f"early termination @ evaluation #{iter + 1}")
+            break
+    runtime = time.time() - starttime
+    return runtime, bestx, bestobj, iter
+
 def main():
     m = 100  # students
-    n = 100  # time slots
+    n = 10  # time slots
     c = 5  # meeting slots
 
     y = 4 / (c-1)  # y(c-1) = maximum number of breaks
@@ -63,25 +83,12 @@ def main():
     x[0:c] = 1
     iterator = relaxed_contigious_permute(y, c, n)
 
-    bestobj = 0
-    bestx = None
+    runtime, bestx, bestobj, iterations = bruteforce_solver(A, iterator, terminate_early, m)
 
-    iter = 0
-    starttime = time.time()
-    for iter, x in tqdm(enumerate(iterator)):
-        x = np.array(x)
-        # print(x)
-        obj = (A * x).any(1).sum()
-        if bestobj < obj:
-            bestobj = obj
-            bestx = x
-        if terminate_early and bestobj == m:  # early termination
-            print(f"early termination @ evaluation #{iter + 1}")
-            break
-    print(f"Evaluation time: {time.time() - starttime}sec")
+    print(f"Evaluation time: {runtime}sec")
     print(f"bestobj: {bestobj}")
     print(f"bestx: {bestx}")
-    print(f"objective function evaluations: {iter + 1}")
+    print(f"objective function evaluations: {iterations + 1}")
 
 if __name__ == '__main__':
     main()
