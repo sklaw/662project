@@ -4,12 +4,14 @@ from solvers.bruteforce import bruteforce_solver, relaxed_contigious_permute
 import numpy as np
 import itertools
 import pandas as pd
+import sys
+np.set_printoptions(threshold=sys.maxsize)
 
 
 def main():
-    m_a = [10, 20, 40]  # students
-    n_a = [10, 20, 30]  # time slots
-    c_a = [1, 2, 4, 8]  # meeting slots
+    m_a = [50, 100, 200]  # students
+    n_a = [50]  # time slots
+    c_a = [1, 2, 3, 4]  # meeting slots
 
     # breaks_a = []
     contigious_a = [False, True]
@@ -48,7 +50,7 @@ def main():
         runtime, bestx, bestobj, _ = mainsolver(A, n, m, c, contigious)
         df.loc[len(df)] = [m, n, c, contigious, A, runtime, bestx, bestobj, 'mainsolver']
 
-    df.to_csv('output.csv')
+    df.to_csv('output_run2.csv')
 
 if __name__ == '__main__':
     main()
