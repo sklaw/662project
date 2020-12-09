@@ -19,7 +19,7 @@ if __name__ == "__main__":
     Y = cp.Variable([m, n])
     Z = cp.Variable([m, n])
     constraints = []
-    g = 1 # control the contiguous constraint [0,1], 0 = consecutive, 1 = noncontiguous
+    g = 3 # control the number of breaks  [0, c-1]
     L= 5 # max number of zeros inbetween 1's max [1,n-2]
 
     for i in range(m):
@@ -57,8 +57,7 @@ if __name__ == "__main__":
         constraints.append(y_3[i] <= 1)
         constraints.append(y_3[i] >= 0)
     constraints.append(np.ones(n-1)@y_3 <= np.ones(n)@x-1)
-    constraints.append(np.ones(n-1)@y_3 - (c-1) <= g*(c-1))
-    constraints.append(-(np.ones(n - 1) @ y_3 - (c - 1)) <= g*(c-1))
+    constraints.append(-(np.ones(n - 1) @ y_3 - (c - 1)) <= g)
 
 
     # maximum number of 0's in between 1's constraint
