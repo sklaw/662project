@@ -20,7 +20,7 @@ if __name__ == "__main__":
     Z = cp.Variable([m, n])
     constraints = []
     g = 3 # control the number of breaks  [0, c-1]
-    L= 5 # max number of zeros inbetween 1's max [1,n-2]
+    L= 5 # max number of zeros inbetween 1's [1,n-2]
 
     for i in range(m):
         for j in range(n):
